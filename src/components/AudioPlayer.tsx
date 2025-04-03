@@ -84,9 +84,15 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
             setCurrentTime(newTime)
         }
     }
-
+    if (!recordBlobUrl) {
+        return (
+            <div className='w-full h-12 rounded-full bg-[#EAF0FA] flex items-center justify-center px-3 gap-2 cursor-default'>
+                Загрузка записи...
+            </div>
+        )
+    }
     return (
-        <div className='w-full h-12 rounded-full bg-[#EAF0FA] items-center px-3 gap-2 cursor-default flex'>
+        <div className='w-full h-12 rounded-full bg-[#EAF0FA] flex items-center px-3 gap-2 cursor-default'>
             <div className='mx-2 w-10'>{durationTimeSecondsToMinutes(currentTime | 0)}</div>
             <button role='button' onClick={handlePlay} className='w-6 h-6 text-[#002CFB] bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer'>
                 { isPlaying ? <PauseSVG/> : <PlaySVG/> }
@@ -98,14 +104,14 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
             <button role='button' onClick={handleClose} className='text-[#ADBFDF] hover:text-[#002CFB] cursor-pointer mx-2'>
                 <CloseSVG />
             </button>
-            {recordBlobUrl && <audio
+            <audio
                 ref={audioRef}
                 src={recordBlobUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
                 onEnded={() => setIsPlaying(false)}
-            />}
+            />
         </div>
     )
 }
