@@ -80,6 +80,7 @@ function App() {
     setCurrentCallTypeFilter(callType)
     setIsCallTypePopupOpened(false)
     setCurrentPage(0)
+    setCurrentRecordPlayer(-1)
   }
 
   function handleDateRangeClick(dateRange: number) {
@@ -91,6 +92,7 @@ function App() {
       setCalendarStartDate(null)
       setCalendarEndDate(null)
       setCurrentPage(0)
+      setCurrentRecordPlayer(-1)
     } else {
       setIsDatePickerCalendarOpened(true)
     }
@@ -107,6 +109,7 @@ function App() {
       setIsDatePickerCalendarOpened(false)
       setIsDatePickerPopupOpened(false)
       setCurrentPage(0)
+      setCurrentRecordPlayer(-1)
     }
   }
 
@@ -118,6 +121,7 @@ function App() {
       setSortOrderDesc(true)
     }
     setCurrentPage(0)
+    setCurrentRecordPlayer(-1)
   }
 
   function handlePreviousPageClick() {
