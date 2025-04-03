@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+@import '@qpokychuk/sf-pro-display/index.css';
+
+@theme {
+    --default-font-family: 'SF Pro Display';
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none; 
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+    height: 4px;
+    border-radius: 2px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: #ADBFDF;
+    border-radius: 2px;
+}
+  
+input[type="range"]::-moz-range-track {
+    height: 4px;
+    background: #ADBFDF;
+    border-radius: 2px;
+}
+  
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none; 
+    height: 0;
+    width: 0;
+    box-shadow: -400px 0 0 400px #002CFB;
+}
+  
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    height: 0;
+    width: 0;
+    box-shadow: -400px 0 0 400px #002CFB;
+}
