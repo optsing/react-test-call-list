@@ -3,20 +3,19 @@ import PauseSVG from '../assets/pause.svg?react'
 import DownloadSVG from '../assets/download.svg?react'
 import CloseSVG from '../assets/close.svg?react'
 
-
-import exampleSrc from '../assets/example.mp3'
-
 import { durationTimeSecondsToMinutes } from '../helpers'
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from 'react'
-
+import { getDemoRecordBlob } from '../api'
 
 const SAMPLE_DURATION = 58
 
-function AudioPlayer({ duration, onClose }: { record: string, partnershipId: string, duration: number, onClose: () => void }) {
-    duration = SAMPLE_DURATION
+
+function AudioPlayer({ onClose }: { record: string, partnershipId: string, duration: number, onClose: () => void }) {
+    const duration = SAMPLE_DURATION
 
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
+    const [recordBlobUrl, setRecordBlobUrl] = useState<string>('')
     
     const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -28,6 +27,23 @@ function AudioPlayer({ duration, onClose }: { record: string, partnershipId: str
         }
     }, [isPlaying])
 
+    useEffect(() => {
+        const controller = new AbortController()
+        const signal = controller.signal
+        let blobUrl: string;
+        getDemoRecordBlob(signal)
+            .then(blob => {
+                blobUrl = URL.createObjectURL(blob)
+                setRecordBlobUrl(blobUrl)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        return () => {
+            URL.revokeObjectURL(blobUrl)
+        }
+    }, [])
+
     function handlePlay(e: MouseEvent<HTMLElement>) {
         e.stopPropagation()
         setIsPlaying(!isPlaying)
@@ -35,16 +51,16 @@ function AudioPlayer({ duration, onClose }: { record: string, partnershipId: str
 
     async function handleDownload(e: MouseEvent<HTMLElement>) {
         e.stopPropagation()
-        // const controller = new AbortController()
-        // const signal = controller.signal
+        const controller = new AbortController()
+        const signal = controller.signal
         try {
-            // const blob = await getRecordBlob(record, partnershipId, signal)
-            // const url = URL.createObjectURL(blob)
+            const blob = await getDemoRecordBlob(signal)
+            const blobUrl = URL.createObjectURL(blob)
             const link = document.createElement('a')
-            link.href = exampleSrc
+            link.href = blobUrl
             link.download = 'download'
             link.click()
-            // URL.revokeObjectURL(link.href)
+            URL.revokeObjectURL(blobUrl)
         } catch (err) {
             console.error(err)
         }
@@ -82,13 +98,14 @@ function AudioPlayer({ duration, onClose }: { record: string, partnershipId: str
             <button role='button' onClick={handleClose} className='text-[#ADBFDF] hover:text-[#002CFB] cursor-pointer mx-2'>
                 <CloseSVG />
             </button>
-            <audio
+            {recordBlobUrl && <audio
                 ref={audioRef}
-                src={exampleSrc}
+                src={recordBlobUrl}
                 onTimeUpdate={handleTimeUpdate}
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
-                onEnded={() => setIsPlaying(false)} />
+                onEnded={() => setIsPlaying(false)}
+            />}
         </div>
     )
 }

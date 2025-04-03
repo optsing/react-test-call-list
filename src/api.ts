@@ -1,6 +1,8 @@
 import { format } from 'date-fns'
 import type { SortByTypes, RawData } from "./types";
 
+import exampleCallSrc from './assets/example.mp3'
+
 const API_GET_LIST_URL = 'https://api.skilla.ru/mango/getList'
 const API_GET_RECORD_URL = 'https://api.skilla.ru/mango/getRecord'
 const BEARER_TOKEN = 'testtoken'
@@ -38,7 +40,7 @@ export async function fetchEntries(
   return await response.json()
 }
 
-export async function getRecordBlob(record: string, partnershipId: string, signal: AbortSignal) {
+export async function getRecordBlob(record: string, partnershipId: string, signal: AbortSignal): Promise<Blob> {
     const params = new URLSearchParams()
     params.append('record', record)
     params.append('partnership_id', partnershipId)
@@ -50,4 +52,13 @@ export async function getRecordBlob(record: string, partnershipId: string, signa
         signal,
     })
     return await response.blob()
+}
+
+
+export async function getDemoRecordBlob(signal: AbortSignal): Promise<Blob> {
+    const respose = await fetch(exampleCallSrc, {
+        method: 'get',
+        signal,
+    })
+    return await respose.blob()
 }
