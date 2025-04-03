@@ -202,12 +202,12 @@ function App() {
           </div>}
         </div>
       </div>
-      <table className='w-[1440px] rounded-lg border-collapse shadow-[0_4px_5px_#E9EDF3] bg-[#FFFFFF]'>
+      <table className='w-[1440px] rounded-lg border-collapse table-fixed shadow-[0_4px_5px_#E9EDF3] bg-[#FFFFFF]'>
         <thead>
           <tr>
             <th className='w-10' />
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>Тип</th>
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[54px]'>Тип</th>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[88px]'>
               <button type='button' onClick={() => handleSortClick('date')} className='cursor-pointer flex items-center'>
                 <span>Время</span>
                 {currentSortBy === 'date' && (currentOrderDesc
@@ -216,10 +216,10 @@ function App() {
                 )}
               </button>
             </th>
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>Сотрудник</th>
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>Звонок</th>
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>Источник</th>
-            <th className='font-normal text-[#5E7793] text-left px-2 py-5'>Оценка</th>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[129px]'>Сотрудник</th>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[325px]'>Звонок</th>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[214px]'>Источник</th>
+            <th className='font-normal text-[#5E7793] text-left px-2 py-5 w-[461px]'>Оценка</th>
             <th className='font-normal text-[#5E7793] text-right px-2 py-5 pr-5 w-[376px]'>
               <button type='button' onClick={() => handleSortClick('duration')} className='cursor-pointer ml-auto flex items-center'>
                 <span>Длительность</span>
