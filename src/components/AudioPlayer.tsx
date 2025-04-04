@@ -16,13 +16,13 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTime, setCurrentTime] = useState(0)
     const [recordBlobUrl, setRecordBlobUrl] = useState<string>('')
-    
+
     const audioRef = useRef<HTMLAudioElement>(null)
 
     useEffect(() => {
         if (isPlaying) {
             audioRef.current?.play()
-        } else{
+        } else {
             audioRef.current?.pause()
         }
     }, [isPlaying])
@@ -30,7 +30,7 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
     useEffect(() => {
         const controller = new AbortController()
         const signal = controller.signal
-        let blobUrl: string;
+        let blobUrl: string
         getDemoRecordBlob(signal)
             .then(blob => {
                 blobUrl = URL.createObjectURL(blob)
@@ -41,29 +41,13 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
             })
         return () => {
             URL.revokeObjectURL(blobUrl)
+            controller.abort()
         }
     }, [])
 
     function handlePlay(e: MouseEvent<HTMLElement>) {
         e.stopPropagation()
         setIsPlaying(!isPlaying)
-    }
-
-    async function handleDownload(e: MouseEvent<HTMLElement>) {
-        e.stopPropagation()
-        const controller = new AbortController()
-        const signal = controller.signal
-        try {
-            const blob = await getDemoRecordBlob(signal)
-            const blobUrl = URL.createObjectURL(blob)
-            const link = document.createElement('a')
-            link.href = blobUrl
-            link.download = 'download'
-            link.click()
-            URL.revokeObjectURL(blobUrl)
-        } catch (err) {
-            console.error(err)
-        }
     }
 
     function handleClose(e: MouseEvent<HTMLElement>) {
@@ -94,13 +78,13 @@ function AudioPlayer({ onClose }: { record: string, partnershipId: string, durat
     return (
         <div className='w-full h-12 rounded-full bg-[#EAF0FA] flex items-center px-3 gap-2 cursor-default'>
             <div className='mx-2 w-10'>{durationTimeSecondsToMinutes(currentTime | 0)}</div>
-            <button role='button' onClick={handlePlay} className='w-6 h-6 text-[#002CFB] bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer'>
-                { isPlaying ? <PauseSVG/> : <PlaySVG/> }
+            <button role='button' onClick={handlePlay} className='w-6 h-6 text-[#002CFB] bg-[#FFFFFF] rounded-full flex items-center justify-center shrink-0 cursor-pointer'>
+                {isPlaying ? <PauseSVG /> : <PlaySVG />}
             </button>
             <input type='range' className='grow' min='0' max={duration} value={currentTime} onChange={handleProgressChange} />
-            <button role='button' onClick={handleDownload} className='text-[#ADBFDF] hover:text-[#002CFB] cursor-pointer mx-2'>
+            <a role='button' href={recordBlobUrl} download='record' className='text-[#ADBFDF] hover:text-[#002CFB] cursor-pointer mx-2'>
                 <DownloadSVG />
-            </button>
+            </a>
             <button role='button' onClick={handleClose} className='text-[#ADBFDF] hover:text-[#002CFB] cursor-pointer mx-2'>
                 <CloseSVG />
             </button>

@@ -54,7 +54,11 @@ export async function getRecordBlob(record: string, partnershipId: string, signa
     return await response.blob()
 }
 
-
+/**
+ * Имитируем предварительное получение записи звонка по API
+ * @param signal 
+ * @returns 
+ */
 export async function getDemoRecordBlob(signal: AbortSignal): Promise<Blob> {
     const respose = await fetch(exampleCallSrc, {
         method: 'get',
