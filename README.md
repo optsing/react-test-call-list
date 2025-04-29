@@ -1,4 +1,4 @@
-# Тестовый проект - список звонков на React + Tailwind CSS
+# Тестовый проект - список звонков на React + Tailwind CSS на основе готового макета.
 
 Развернутая версия по этой [ссылке](https://react-test-call-list.vercel.app)
 
